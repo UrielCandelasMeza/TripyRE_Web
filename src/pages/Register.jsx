@@ -1,0 +1,86 @@
+import React, { useState } from "react";
+import Input from "../components/Input";
+import Button from "../components/Button";
+
+function Register() {
+  const [formData, setFormData] = useState({
+    nombre: "",
+    apellido: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Datos del formulario:", formData);
+    // Aquí puedes hacer tu petición al backend
+    // Por ejemplo: await fetch('/api/register', { method: 'POST', body: JSON.stringify(formData) })
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center justify-center p-8 pt-23">
+      <div className="flex flex-col justify-center w-3/6 gap-2 order-1 md:order-1 space-y-6 backdrop-blur-md bg-white/70 p-8 rounded-2xl shadow-2xl border border-gray-200 px-16 py-8">
+        <h1 className="text-5xl md:text-2xl font-semibold leading-tight text-oscuro self-start">
+          Crea tu cuenta
+        </h1>
+        <div className="grid grid-cols-2 justify-between gap-3">
+          <Input
+            label="Nombre"
+            placeholder="Ej. Juan"
+            name="nombre"
+            value={formData.nombre}
+            onChange={handleChange}
+          />
+          <Input
+            label="Apellido"
+            placeholder="Ej. Sanchez"
+            name="apellido"
+            value={formData.apellido}
+            onChange={handleChange}
+          />
+        </div>
+        <Input
+          label="Nombre de Usuario"
+          placeholder="Ej. juansanchez"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
+        <Input
+          label="Email"
+          placeholder="Ej. juansanchez@gmail.com"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <Input
+          label="Contraseña"
+          placeholder="Ej. Min. 8 caracteres"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <Button
+          text="Crear cuenta"
+          type="submit"
+          className="bg-morado text-white"
+        />
+      </div>
+    </form>
+  );
+}
+
+export default Register;
