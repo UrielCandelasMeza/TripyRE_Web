@@ -21,20 +21,20 @@ function CreateTravel() {
 
   const handleFormSubmit = (formData) => {
     const travelData = {
-      start: startAddress, // String - nombre completo del lugar
-      destination: destAddress, // String - nombre completo del destino
-      cost: formData.cost, // String - costo del viaje
-      maxUsers: formData.maxPeople, // String - número máximo de usuarios
+      start: startAddress,
+      destination: destAddress,
+      cost: formData.cost,
+      maxUsers: formData.maxPeople,
       startCoords: startCoords
         ? {
-            lat: startCoords.lat, // Number - latitud del punto de inicio
-            lon: startCoords.lon, // Number - longitud del punto de inicio
+            lat: startCoords.lat,
+            lon: startCoords.lon,
           }
         : null,
       destCoords: destCoords
         ? {
-            lat: destCoords.lat, // Number - latitud del destino
-            lon: destCoords.lon, // Number - longitud del destino
+            lat: destCoords.lat,
+            lon: destCoords.lon,
           }
         : null,
     };
