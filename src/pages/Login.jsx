@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const { showError } = useToast();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,10 +22,15 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos de login:", formData);
-    navigate("/home");
+    try {
+      await login({ email: formData.email, password: formData.password });
+      navigate("/home");
+    } catch (err) {
+      const msg = err?.response?.data?.message ?? "Credenciales incorrectas.";
+      showError(msg);
+    }
   };
 
   return (

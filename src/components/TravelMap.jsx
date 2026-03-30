@@ -63,34 +63,55 @@ export default function TravelMap({
     });
 
     map.current.on("load", () => {
-      // Solo agregar línea si ambas coordenadas existen
+      // Solo agregar ruta si ambas coordenadas existen
       if (startCoord && destCoord) {
-        map.current.addSource("route", {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "LineString",
-              coordinates: [startCoord, destCoord],
-            },
-          },
-        });
+        // Intentar obtener ruta real de OSRM
+        const drawRoute = async () => {
+          let routeCoords = [startCoord, destCoord]; // fallback: línea recta
 
-        map.current.addLayer({
-          id: "route",
-          type: "line",
-          source: "route",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": "#3b82f6",
-            "line-width": 4,
-            "line-dasharray": [2, 2],
-          },
-        });
+          try {
+            const url = `https://router.project-osrm.org/route/v1/driving/${startCoord[0]},${startCoord[1]};${destCoord[0]},${destCoord[1]}?overview=full&geometries=geojson`;
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if (data.code === "Ok" && data.routes?.[0]) {
+              routeCoords = data.routes[0].geometry.coordinates;
+            }
+          } catch (err) {
+            console.warn("OSRM no disponible, usando línea recta:", err);
+          }
+
+          // Verificar que el mapa siga montado
+          if (!map.current) return;
+
+          map.current.addSource("route", {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "LineString",
+                coordinates: routeCoords,
+              },
+            },
+          });
+
+          map.current.addLayer({
+            id: "route",
+            type: "line",
+            source: "route",
+            layout: {
+              "line-join": "round",
+              "line-cap": "round",
+            },
+            paint: {
+              "line-color": "#725AC1",
+              "line-width": 4,
+            },
+          });
+        };
+
+        drawRoute();
       }
 
       // Marcador de inicio (verde) - solo si existe

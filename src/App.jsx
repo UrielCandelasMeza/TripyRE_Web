@@ -14,26 +14,41 @@ import Chat from "./pages/Home/Chat";
 import MyTravels from "./pages/Home/MyTravels";
 import Profile from "./pages/Home/Profile";
 
+// Toast
+import { ToastProvider } from "./context/ToastContext";
+import ToastContainer from "./components/ToastContainer";
+
+import AuthProvider from "./context/AuthContext";
+
+import ProtectedRoute from "./auth/ProtectedRoute"
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Pre-Login */}
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<LandingPage />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
-        {/* Logged User */}
-        <Route path="home" element={<HomeLayout />}>
-          <Route index element={<Home />} />
-          <Route path="create" element={<CreateTravel />} />
-          <Route path="chat" element={<Chat />} />
-          <Route path="travels" element={<MyTravels />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ToastProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Pre-Login */}
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<LandingPage />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
+            {/* Logged User */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="home" element={<HomeLayout />}>
+                <Route index element={<Home />} />
+                <Route path="create" element={<CreateTravel />} />
+                <Route path="chat" element={<Chat />} />
+                <Route path="travels" element={<MyTravels />} />
+                <Route path="profile" element={<Profile />} />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <ToastContainer />
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 

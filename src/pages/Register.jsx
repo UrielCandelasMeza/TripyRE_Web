@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 
 function Register() {
+  const navigate = useNavigate();
+  const { register } = useAuth();
+  const { showError, showMessage } = useToast();
+
   const [formData, setFormData] = useState({
-    nombre: "",
-    apellido: "",
-    username: "",
+    name: "",
+    lastName: "",
+    userName: "",
     email: "",
     password: "",
   });
@@ -19,11 +26,16 @@ function Register() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", formData);
-    // Aquí puedes hacer tu petición al backend
-    // Por ejemplo: await fetch('/api/register', { method: 'POST', body: JSON.stringify(formData) })
+    try {
+      await register(formData);
+      showMessage("¡Cuenta creada exitosamente!");
+      navigate("/home");
+    } catch (err) {
+      const msg = err?.response?.data?.message ?? "Error al crear la cuenta.";
+      showError(msg);
+    }
   };
 
   return (
@@ -38,23 +50,23 @@ function Register() {
           <Input
             label="Nombre"
             placeholder="Ej. Juan"
-            name="nombre"
-            value={formData.nombre}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
           />
           <Input
             label="Apellido"
             placeholder="Ej. Sanchez"
-            name="apellido"
-            value={formData.apellido}
+            name="lastName"
+            value={formData.lastName}
             onChange={handleChange}
           />
         </div>
         <Input
           label="Nombre de Usuario"
           placeholder="Ej. juansanchez"
-          name="username"
-          value={formData.username}
+          name="userName"
+          value={formData.userName}
           onChange={handleChange}
         />
         <Input
@@ -78,6 +90,15 @@ function Register() {
           type="submit"
           className="bg-morado text-white"
         />
+
+        <p className="text-center text-oscuro text-sm">
+          ¿Ya tienes cuenta?{" "}
+          <Link
+            to="/login"
+            className="text-morado hover:text-moradoIntermedio font-semibold">
+            Inicia sesión aquí
+          </Link>
+        </p>
       </div>
     </form>
   );
