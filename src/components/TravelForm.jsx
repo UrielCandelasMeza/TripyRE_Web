@@ -1,7 +1,16 @@
 // TravelForm.jsx
 import { useState } from "react";
 import LocationInput from "./LocationInput";
-import { FiMapPin, FiUsers, FiDollarSign, FiClock, FiCalendar, FiAlertCircle, FiX, FiPlus } from "react-icons/fi";
+import {
+  FiMapPin,
+  FiUsers,
+  FiDollarSign,
+  FiClock,
+  FiCalendar,
+  FiAlertCircle,
+  FiX,
+  FiPlus,
+} from "react-icons/fi";
 
 function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
   const [formData, setFormData] = useState({
@@ -34,39 +43,34 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 h-fit">
+    <div className="h-fit rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
       <form onSubmit={handleSubmit} className="space-y-5">
-
         {/* Punto de partida */}
         <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            <FiMapPin className="w-3.5 h-3.5 text-gray-400" />
+          <label className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            <FiMapPin className="h-3.5 w-3.5 text-gray-400" />
             Punto de partida
           </label>
           <LocationInput
             name="startPoint"
             value={startAddress}
             onChange={handleInputChange}
-            onLocationSelect={(coords, address) =>
-              onLocationSelect("start", coords, address)
-            }
+            onLocationSelect={(coords, address) => onLocationSelect("start", coords, address)}
             placeholder="Ingresa el punto de partida"
           />
         </div>
 
         {/* Destino */}
         <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-semibold text-morado uppercase tracking-wide">
-            <FiMapPin className="w-3.5 h-3.5 text-morado" />
+          <label className="text-morado flex items-center gap-1.5 text-xs font-semibold tracking-wide uppercase">
+            <FiMapPin className="text-morado h-3.5 w-3.5" />
             Destino
           </label>
           <LocationInput
             name="destination"
             value={destAddress}
             onChange={handleInputChange}
-            onLocationSelect={(coords, address) =>
-              onLocationSelect("dest", coords, address)
-            }
+            onLocationSelect={(coords, address) => onLocationSelect("dest", coords, address)}
             placeholder="Ingresa el destino"
           />
         </div>
@@ -76,8 +80,8 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
 
         {/* Fecha de partida */}
         <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            <FiCalendar className="w-3.5 h-3.5 text-gray-400" />
+          <label className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            <FiCalendar className="h-3.5 w-3.5 text-gray-400" />
             Fecha de partida
           </label>
           <input
@@ -85,13 +89,13 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
             name="departureDate"
             value={formData.departureDate}
             onChange={handleInputChange}
-            className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+            className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm transition-all focus:outline-none"
             required
           />
         </div>
 
         {/* Toggle viaje de más de un día */}
-        <label className="flex items-center gap-2 cursor-pointer select-none">
+        <label className="flex cursor-pointer items-center gap-2 select-none">
           <input
             type="checkbox"
             checked={multiDay}
@@ -99,7 +103,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
               setMultiDay(e.target.checked);
               if (!e.target.checked) setFormData((prev) => ({ ...prev, arrivalDate: "" }));
             }}
-            className="w-4 h-4 accent-morado rounded"
+            className="accent-morado h-4 w-4 rounded"
           />
           <span className="text-xs text-gray-500">El viaje dura más de un día</span>
         </label>
@@ -107,8 +111,8 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
         {/* Fecha de llegada (condicional) */}
         {multiDay && (
           <div className="flex flex-col gap-1.5">
-            <label className="flex items-center gap-1.5 text-xs font-semibold text-morado uppercase tracking-wide">
-              <FiCalendar className="w-3.5 h-3.5 text-morado" />
+            <label className="text-morado flex items-center gap-1.5 text-xs font-semibold tracking-wide uppercase">
+              <FiCalendar className="text-morado h-3.5 w-3.5" />
               Fecha de llegada
             </label>
             <input
@@ -117,7 +121,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
               value={formData.arrivalDate}
               onChange={handleInputChange}
               min={formData.departureDate || undefined}
-              className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+              className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm transition-all focus:outline-none"
               required
             />
           </div>
@@ -126,8 +130,8 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
         {/* Hora de partida y llegada */}
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              <FiClock className="w-3.5 h-3.5 text-gray-400" />
+            <label className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+              <FiClock className="h-3.5 w-3.5 text-gray-400" />
               Hora de partida
             </label>
             <input
@@ -135,14 +139,14 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
               name="departureTime"
               value={formData.departureTime}
               onChange={handleInputChange}
-              className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+              className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm transition-all focus:outline-none"
               required
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="flex items-center gap-1.5 text-xs font-semibold text-morado uppercase tracking-wide">
-              <FiClock className="w-3.5 h-3.5 text-morado" />
+            <label className="text-morado flex items-center gap-1.5 text-xs font-semibold tracking-wide uppercase">
+              <FiClock className="text-morado h-3.5 w-3.5" />
               Hora de llegada
             </label>
             <input
@@ -150,7 +154,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
               name="arrivalTime"
               value={formData.arrivalTime}
               onChange={handleInputChange}
-              className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+              className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm transition-all focus:outline-none"
               required
             />
           </div>
@@ -160,12 +164,12 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
         <div className="grid grid-cols-2 gap-4">
           {/* Costo aproximado */}
           <div className="flex flex-col gap-1.5">
-            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              <FiDollarSign className="w-3.5 h-3.5 text-gray-400" />
+            <label className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+              <FiDollarSign className="h-3.5 w-3.5 text-gray-400" />
               Costo aprox.
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-morado font-semibold text-sm">
+              <span className="text-morado absolute top-1/2 left-3 -translate-y-1/2 text-sm font-semibold">
                 $
               </span>
               <input
@@ -174,7 +178,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
                 value={formData.cost}
                 onChange={handleInputChange}
                 placeholder="0"
-                className="w-full pl-7 pr-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+                className="w-full rounded-xl border border-gray-200 py-2.5 pr-3 pl-7 text-sm transition-all focus:outline-none"
                 required
               />
             </div>
@@ -182,8 +186,8 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
 
           {/* Máximo de personas */}
           <div className="flex flex-col gap-1.5">
-            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              <FiUsers className="w-3.5 h-3.5 text-gray-400" />
+            <label className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+              <FiUsers className="h-3.5 w-3.5 text-gray-400" />
               Pasajeros
             </label>
             <input
@@ -192,7 +196,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
               value={formData.maxPeople}
               onChange={handleInputChange}
               placeholder="0"
-              className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+              className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm transition-all focus:outline-none"
               required
             />
           </div>
@@ -203,8 +207,8 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
 
         {/* Restricciones */}
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            <FiAlertCircle className="w-3.5 h-3.5 text-gray-400" />
+          <label className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            <FiAlertCircle className="h-3.5 w-3.5 text-gray-400" />
             Restricciones
           </label>
 
@@ -214,15 +218,15 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
               {restrictions.map((rule, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1 bg-moradoClaro/20 text-morado text-xs font-medium px-2.5 py-1 rounded-lg"
+                  className="bg-moradoClaro/20 text-morado inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium"
                 >
                   {rule}
                   <button
                     type="button"
                     onClick={() => setRestrictions((prev) => prev.filter((_, idx) => idx !== i))}
-                    className="hover:text-red-500 transition-colors"
+                    className="transition-colors hover:text-red-500"
                   >
-                    <FiX className="w-3 h-3" />
+                    <FiX className="h-3 w-3" />
                   </button>
                 </span>
               ))}
@@ -243,7 +247,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
                 }
               }}
               placeholder="Ej. No fumar, No mascotas..."
-              className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none transition-all"
+              className="flex-1 rounded-xl border border-gray-200 px-3 py-2 text-sm transition-all focus:outline-none"
             />
             <button
               type="button"
@@ -253,9 +257,9 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
                   setRestrictionInput("");
                 }
               }}
-              className="px-3 py-2 bg-morado text-white rounded-xl hover:opacity-90 transition-opacity"
+              className="bg-morado rounded-xl px-3 py-2 text-white transition-opacity hover:opacity-90"
             >
-              <FiPlus className="w-4 h-4" />
+              <FiPlus className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -263,7 +267,7 @@ function TravelForm({ onLocationSelect, onSubmit, startAddress, destAddress }) {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full py-3 bg-oscuro hover:opacity-90 transition-opacity duration-200 text-white text-sm font-semibold rounded-lg mt-1"
+          className="bg-oscuro mt-1 w-full rounded-lg py-3 text-sm font-semibold text-white transition-opacity duration-200 hover:opacity-90"
         >
           Crear viaje
         </button>

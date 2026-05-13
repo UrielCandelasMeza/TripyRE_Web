@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -7,8 +7,8 @@
 
 @theme {
   --color-oscuro: #242038;
-  --color-morado: #725AC1;
-  --color-moradoIntermedio: #9D8DD4;
-  --color-moradoClaro: #B8A8E8;
-  --color-neutro: #E5E5E5;
+  --color-morado: #725ac1;
+  --color-moradoIntermedio: #9d8dd4;
+  --color-moradoClaro: #b8a8e8;
+  --color-neutro: #e5e5e5;
 }

@@ -19,23 +19,16 @@ function Toast({ id, type, text, onClose }) {
 
   return (
     <div
-      className={`
-        flex items-start gap-3 px-4 py-3 rounded-xl shadow-2xl min-w-72 max-w-sm
-        border text-white text-sm font-medium
-        transition-all duration-300 ease-out
-        ${isError
-          ? "bg-[#3b1a1a] border-red-500/40"
-          : "bg-[#2d1f4f] border-[#725AC1]/40"
-        }
-        ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}
-      `}
+      className={`flex max-w-sm min-w-72 items-start gap-3 rounded-xl border px-4 py-3 text-sm font-medium text-white shadow-2xl transition-all duration-300 ease-out ${
+        isError ? "border-red-500/40 bg-[#3b1a1a]" : "border-[#725AC1]/40 bg-[#2d1f4f]"
+      } ${visible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"} `}
     >
       {/* Icon */}
       <div className="mt-0.5 shrink-0">
         {isError ? (
-          <IoCloseCircle className="text-red-400 text-lg" />
+          <IoCloseCircle className="text-lg text-red-400" />
         ) : (
-          <IoCheckmarkCircle className="text-[#9D8DD4] text-lg" />
+          <IoCheckmarkCircle className="text-lg text-[#9D8DD4]" />
         )}
       </div>
 
@@ -45,7 +38,7 @@ function Toast({ id, type, text, onClose }) {
       {/* Close button */}
       <button
         onClick={() => onClose(id)}
-        className="shrink-0 mt-0.5 text-[#B8A8E8]/60 hover:text-white transition-colors duration-200"
+        className="mt-0.5 shrink-0 text-[#B8A8E8]/60 transition-colors duration-200 hover:text-white"
       >
         <IoClose className="text-base" />
       </button>

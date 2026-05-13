@@ -28,78 +28,72 @@ function TravelDetailsCard({
   onFinishTrip,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg py-6 px-8 h-fit">
+    <div className="h-fit rounded-2xl bg-white px-8 py-6 shadow-lg">
       {/* Route Section */}
       <div className="mb-6">
-        <div className="flex items-start mb-4">
-          <div className="w-10 h-10 rounded-full bg-moradoClaro flex items-center justify-center mr-3">
-            <FiMapPin className="w-5 h-5 text-morado" />
+        <div className="mb-4 flex items-start">
+          <div className="bg-moradoClaro mr-3 flex h-10 w-10 items-center justify-center rounded-full">
+            <FiMapPin className="text-morado h-5 w-5" />
           </div>
           <div className="flex-1">
-            <p className="text-xs text-moradoIntermedio font-semibold mb-1">
-              Origen
-            </p>
-            <p className="text-base text-oscuro font-medium">
-              {travelData.start}
-            </p>
+            <p className="text-moradoIntermedio mb-1 text-xs font-semibold">Origen</p>
+            <p className="text-oscuro text-base font-medium">{travelData.start}</p>
           </div>
         </div>
 
-        <div className="w-0.5 h-8 bg-moradoClaro ml-5 mb-2"></div>
+        <div className="bg-moradoClaro mb-2 ml-5 h-8 w-0.5"></div>
 
         <div className="flex items-start">
-          <div className="w-10 h-10 rounded-full bg-moradoClaro flex items-center justify-center mr-3">
-            <FiFlag className="w-5 h-5 text-morado" />
+          <div className="bg-moradoClaro mr-3 flex h-10 w-10 items-center justify-center rounded-full">
+            <FiFlag className="text-morado h-5 w-5" />
           </div>
           <div className="flex-1">
-            <p className="text-xs text-moradoIntermedio font-semibold mb-1">
-              Destino
-            </p>
-            <p className="text-base text-oscuro font-medium">
-              {travelData.destination}
-            </p>
+            <p className="text-moradoIntermedio mb-1 text-xs font-semibold">Destino</p>
+            <p className="text-oscuro text-base font-medium">{travelData.destination}</p>
           </div>
         </div>
       </div>
 
-      <div className="h-px bg-gray-200 my-6"></div>
+      <div className="my-6 h-px bg-gray-200"></div>
 
       {/* Info Grid */}
-      <div className="flex justify-around mb-6">
+      <div className="mb-6 flex justify-around">
         <div className="flex flex-col items-center">
-          <FiDollarSign className="w-6 h-6 text-morado mb-2" />
-          <p className="text-xs text-moradoIntermedio mb-1">Costo</p>
-          <p className="text-lg font-bold text-oscuro">${travelData.cost}</p>
+          <FiDollarSign className="text-morado mb-2 h-6 w-6" />
+          <p className="text-moradoIntermedio mb-1 text-xs">Costo</p>
+          <p className="text-oscuro text-lg font-bold">${travelData.cost}</p>
         </div>
 
         <div className="flex flex-col items-center">
-          <FiUsers className="w-6 h-6 text-morado mb-2" />
-          <p className="text-xs text-moradoIntermedio mb-1">Pasajeros</p>
-          <p className="text-lg font-bold text-oscuro">{travelData.maxUsers}</p>
+          <FiUsers className="text-morado mb-2 h-6 w-6" />
+          <p className="text-moradoIntermedio mb-1 text-xs">Pasajeros</p>
+          <p className="text-oscuro text-lg font-bold">{travelData.maxUsers}</p>
         </div>
       </div>
 
       {/* Status */}
-      <div className="mt-6 bg-moradoClaro/15 border-l-4 border-morado rounded-xl p-5">
-        <p className="text-sm font-semibold text-moradoIntermedio uppercase tracking-wide mb-2">
+      <div className="bg-moradoClaro/15 border-morado mt-6 rounded-xl border-l-4 p-5">
+        <p className="text-moradoIntermedio mb-2 text-sm font-semibold tracking-wide uppercase">
           Estado del viaje
         </p>
-        <p className="text-2xl font-bold text-oscuro">{status}</p>
+        <p className="text-oscuro text-2xl font-bold">{status}</p>
       </div>
 
       {/* Action Buttons */}
       {isCreator && travelData.status === "PRE_TRAVEL" && (
-        <div className="grid grid-cols-2 gap-3 mt-6">
+        <div className="mt-6 grid grid-cols-2 gap-3">
           <button
             onClick={() => onStartTrip(travelData.id)}
-            className="bg-morado hover:bg-morado/90 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200">
-            <FiPlayCircle className="w-5 h-5" />
+            className="bg-morado hover:bg-morado/90 flex items-center justify-center gap-2 rounded-lg py-3 font-semibold text-white transition-colors duration-200"
+          >
+            <FiPlayCircle className="h-5 w-5" />
             Iniciar Viaje
           </button>
           <button
             onClick={() => onCancelTrip(travelData.id)}
-            className="bg-oscuro hover:bg-oscuro/90 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200">
-            <FiXCircle className="w-5 h-5" />
+            className="bg-oscuro hover:bg-oscuro/90 flex items-center justify-center gap-2 rounded-lg py-3 font-semibold text-white transition-colors duration-200"
+          >
+            <FiXCircle className="h-5 w-5" />
             Cancelar Viaje
           </button>
         </div>
@@ -108,16 +102,17 @@ function TravelDetailsCard({
       {isCreator && travelData.status === "IN_TRAVEL" && (
         <button
           onClick={() => onFinishTrip(travelData.id)}
-          className="w-full bg-oscuro hover:bg-oscuro/90 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 mt-6 transition-colors duration-200">
-          <FiCheckCircle className="w-5 h-5" />
+          className="bg-oscuro hover:bg-oscuro/90 mt-6 flex w-full items-center justify-center gap-2 rounded-lg py-3 font-semibold text-white transition-colors duration-200"
+        >
+          <FiCheckCircle className="h-5 w-5" />
           Finalizar Viaje
         </button>
       )}
 
       {/* Passenger Info */}
       {!isCreator && (
-        <div className="bg-moradoClaro/10 rounded-xl p-6 text-center mt-6">
-          <FiAlertCircle className="w-10 h-10 text-morado mx-auto mb-3" />
+        <div className="bg-moradoClaro/10 mt-6 rounded-xl p-6 text-center">
+          <FiAlertCircle className="text-morado mx-auto mb-3 h-10 w-10" />
           <p className="text-oscuro text-sm leading-relaxed">
             Estás unido a este viaje. Espera a que el conductor inicie el viaje.
           </p>
@@ -130,8 +125,8 @@ function TravelDetailsCard({
 // RequestsCard Component
 function RequestsCard({ requests, onAccept, onReject }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8 h-fit">
-      <h2 className="text-xl font-bold text-oscuro mb-6">
+    <div className="h-fit rounded-2xl bg-white p-8 shadow-lg">
+      <h2 className="text-oscuro mb-6 text-xl font-bold">
         Solicitudes Pendientes ({requests.length})
       </h2>
       <div className="space-y-3">
@@ -151,23 +146,21 @@ function RequestsCard({ requests, onAccept, onReject }) {
 // EmptyState Component
 function EmptyState() {
   return (
-    <div className="max-w-full mx-auto grid grid-cols-2 gap-4">
+    <div className="mx-auto grid max-w-full grid-cols-2 gap-4">
       {/* Empty State Card */}
-      <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-        <div className="w-32 h-32 rounded-full bg-moradoClaro flex items-center justify-center mx-auto mb-6">
-          <FiCar className="w-16 h-16 text-morado" />
+      <div className="rounded-2xl bg-white p-12 text-center shadow-lg">
+        <div className="bg-moradoClaro mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full">
+          <FiCar className="text-morado h-16 w-16" />
         </div>
-        <h2 className="text-2xl font-bold text-oscuro mb-3">
-          No tienes viajes activos
-        </h2>
-        <p className="text-gray-600 leading-relaxed mb-8 max-w-md mx-auto">
-          Aún no te has unido a ningún viaje. Explora los viajes disponibles y
-          únete a uno para comenzar tu aventura.
+        <h2 className="text-oscuro mb-3 text-2xl font-bold">No tienes viajes activos</h2>
+        <p className="mx-auto mb-8 max-w-md leading-relaxed text-gray-600">
+          Aún no te has unido a ningún viaje. Explora los viajes disponibles y únete a uno para
+          comenzar tu aventura.
         </p>
 
         <Link to="/home/create">
-          <button className="bg-morado hover:bg-morado/90 text-white py-3 px-10 rounded-lg font-semibold flex items-center justify-center gap-2 mx-auto transition-colors duration-200 shadow-lg">
-            <FiSearch className="w-5 h-5" />
+          <button className="bg-morado hover:bg-morado/90 mx-auto flex items-center justify-center gap-2 rounded-lg px-10 py-3 font-semibold text-white shadow-lg transition-colors duration-200">
+            <FiSearch className="h-5 w-5" />
             Explorar Viajes
           </button>
         </Link>
@@ -175,25 +168,19 @@ function EmptyState() {
 
       {/* Info Cards */}
       <div className="grid gap-4">
-        <div className="flex flex-col bg-white rounded-2xl shadow-md p-6 text-center justify-center">
-          <div className="w-14 h-14 rounded-full bg-moradoClaro flex items-center justify-center mx-auto mb-3">
-            <FiUsers className="w-6 h-6 text-morado" />
+        <div className="flex flex-col justify-center rounded-2xl bg-white p-6 text-center shadow-md">
+          <div className="bg-moradoClaro mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full">
+            <FiUsers className="text-morado h-6 w-6" />
           </div>
-          <h3 className="text-base font-semibold text-oscuro mb-2">
-            Comparte gastos
-          </h3>
-          <p className="text-sm text-gray-600">
-            Viaja con otros y reduce costos
-          </p>
+          <h3 className="text-oscuro mb-2 text-base font-semibold">Comparte gastos</h3>
+          <p className="text-sm text-gray-600">Viaja con otros y reduce costos</p>
         </div>
 
-        <div className="flex flex-col bg-white rounded-2xl shadow-md p-6 text-center justify-center">
-          <div className="w-14 h-14 rounded-full bg-moradoClaro flex items-center justify-center mx-auto mb-3">
-            <FiShield className="w-6 h-6 text-morado" />
+        <div className="flex flex-col justify-center rounded-2xl bg-white p-6 text-center shadow-md">
+          <div className="bg-moradoClaro mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full">
+            <FiShield className="text-morado h-6 w-6" />
           </div>
-          <h3 className="text-base font-semibold text-oscuro mb-2">
-            Viaja seguro
-          </h3>
+          <h3 className="text-oscuro mb-2 text-base font-semibold">Viaja seguro</h3>
           <p className="text-sm text-gray-600">Usuarios verificados</p>
         </div>
       </div>
@@ -266,15 +253,13 @@ export default function MyTravels() {
     <div className="pt-16">
       <div className="container mx-auto px-6 py-8">
         {/* Title */}
-        <div className="flex items-center gap-4 mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">
-            Detalles del Viaje
-          </h1>
+        <div className="mb-8 flex items-center gap-4">
+          <h1 className="text-4xl font-bold text-gray-900">Detalles del Viaje</h1>
         </div>
 
         {/* Main Content */}
         {travelData ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {/* Left Column - Travel Details */}
             <TravelDetailsCard
               travelData={travelData}

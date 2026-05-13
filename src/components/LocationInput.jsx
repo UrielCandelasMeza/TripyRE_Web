@@ -2,14 +2,7 @@
 import { useState, useRef } from "react";
 import { geocodeAdress } from "../services/geocoding";
 
-function LocationInput({
-  label,
-  name,
-  value,
-  onChange,
-  onLocationSelect,
-  placeholder,
-}) {
+function LocationInput({ label, name, value, onChange, onLocationSelect, placeholder }) {
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [inputValue, setInputValue] = useState(value || "");
@@ -54,9 +47,7 @@ function LocationInput({
 
   return (
     <div className="relative">
-      <label className="block text-sm font-semibold text-gray-700 mb-2">
-        {label}
-      </label>
+      <label className="mb-2 block text-sm font-semibold text-gray-700">{label}</label>
       <input
         type="text"
         name={name}
@@ -65,21 +56,20 @@ function LocationInput({
         onBlur={handleBlur}
         onFocus={() => inputValue.length >= 3 && setShowResults(true)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none"
+        className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none"
         autoComplete="off"
       />
 
       {/* Dropdown de resultados */}
       {showResults && results.length > 0 && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border border-gray-300 bg-white shadow-lg">
           {results.map((item, index) => (
             <div
               key={index}
               onClick={() => handleSelect(item)}
-              className="px-4 py-3 hover:bg-purple-50 cursor-pointer border-b border-gray-100 last:border-b-0">
-              <p className="text-sm text-gray-800 font-medium">
-                {item.display_name}
-              </p>
+              className="cursor-pointer border-b border-gray-100 px-4 py-3 last:border-b-0 hover:bg-purple-50"
+            >
+              <p className="text-sm font-medium text-gray-800">{item.display_name}</p>
             </div>
           ))}
         </div>

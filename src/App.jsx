@@ -20,7 +20,7 @@ import ToastContainer from "./components/ToastContainer";
 
 import AuthProvider from "./context/AuthContext";
 
-import ProtectedRoute from "./auth/ProtectedRoute"
+import ProtectedRoute from "./auth/ProtectedRoute";
 
 function App() {
   return (

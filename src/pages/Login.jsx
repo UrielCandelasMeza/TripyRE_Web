@@ -34,11 +34,9 @@ function Login() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex items-center justify-center p-8 pt-36">
-      <div className="flex flex-col justify-center w-5/12 gap-2 order-1 md:order-1 space-y-6 backdrop-blur-md bg-white/70 p-8 rounded-2xl shadow-2xl border border-gray-200 px-16 py-8">
-        <h1 className="text-5xl md:text-2xl font-semibold leading-tight text-oscuro self-start">
+    <form onSubmit={handleSubmit} className="flex items-center justify-center p-8 pt-36">
+      <div className="order-1 flex w-5/12 flex-col justify-center gap-2 space-y-6 rounded-2xl border border-gray-200 bg-white/70 p-8 px-16 py-8 shadow-2xl backdrop-blur-md md:order-1">
+        <h1 className="text-oscuro self-start text-5xl leading-tight font-semibold md:text-2xl">
           Inicia sesión en tu cuenta
         </h1>
 
@@ -60,17 +58,11 @@ function Login() {
           onChange={handleChange}
         />
 
-        <Button
-          text="Iniciar Sesión"
-          type="submit"
-          className="bg-morado text-white"
-        />
+        <Button text="Iniciar Sesión" type="submit" className="bg-morado text-white" />
 
-        <p className="text-center text-oscuro text-sm">
+        <p className="text-oscuro text-center text-sm">
           ¿No tienes cuenta?{" "}
-          <Link
-            to="/register"
-            className="text-morado hover:text-moradoIntermedio font-semibold">
+          <Link to="/register" className="text-morado hover:text-moradoIntermedio font-semibold">
             Regístrate aquí
           </Link>
         </p>

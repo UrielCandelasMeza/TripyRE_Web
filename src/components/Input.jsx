@@ -10,7 +10,7 @@ function Input({ value, name, onChange, type = "text", placeholder, label }) {
         onChange={onChange}
         type={type}
         placeholder={placeholder}
-        className="px-3 py-2 border border-slate-500 rounded-lg text-oscuro"
+        className="text-oscuro rounded-lg border border-slate-500 px-3 py-2"
       />
     </label>
   );

@@ -146,11 +146,7 @@ const Threads = ({
       uniforms: {
         iTime: { value: 0 },
         iResolution: {
-          value: new Color(
-            gl.canvas.width,
-            gl.canvas.height,
-            gl.canvas.width / gl.canvas.height
-          ),
+          value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height),
         },
         uColor: { value: new Color(...color) },
         uAmplitude: { value: amplitude },
@@ -207,8 +203,7 @@ const Threads = ({
     animationFrameId.current = requestAnimationFrame(update);
 
     return () => {
-      if (animationFrameId.current)
-        cancelAnimationFrame(animationFrameId.current);
+      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
       window.removeEventListener("resize", resize);
 
       if (enableMouseInteraction) {
@@ -220,9 +215,7 @@ const Threads = ({
     };
   }, [color, amplitude, distance, enableMouseInteraction]);
 
-  return (
-    <div ref={containerRef} className="w-full h-full relative" {...rest} />
-  );
+  return <div ref={containerRef} className="relative h-full w-full" {...rest} />;
 };
 
 export default Threads;

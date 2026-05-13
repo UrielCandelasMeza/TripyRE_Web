@@ -21,7 +21,7 @@ export const ToastProvider = ({ children }) => {
       setToasts((prev) => [...prev, { id, type, text }]);
       setTimeout(() => removeToast(id), 4000);
     },
-    [removeToast]
+    [removeToast],
   );
 
   const showMessage = useCallback((text) => addToast("message", text), [addToast]);

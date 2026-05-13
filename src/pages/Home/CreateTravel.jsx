@@ -4,7 +4,7 @@ import TravelForm from "../../components/TravelForm";
 import MapContainer from "../../components/MapContainer";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
-import axios from "../../api/axios"
+import axios from "../../api/axios";
 function CreateTravel() {
   const { user } = useAuth();
   const { showMessage, showError } = useToast();
@@ -65,7 +65,7 @@ function CreateTravel() {
       !travelData.restrictions
     ) {
       alert(
-        "Por favor selecciona tanto el punto de partida como el destino desde la lista de sugerencias"
+        "Por favor selecciona tanto el punto de partida como el destino desde la lista de sugerencias",
       );
       return;
     }
@@ -84,12 +84,12 @@ function CreateTravel() {
     <div className="pt-16">
       <div className="container mx-auto px-6 py-8">
         {/* Back Button and Title */}
-        <div className="flex items-center gap-4 mb-6">
-          <h1 className="text-2xl font-bold text-oscuro">Crear Viaje</h1>
+        <div className="mb-6 flex items-center gap-4">
+          <h1 className="text-oscuro text-2xl font-bold">Crear Viaje</h1>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
           <TravelForm
             onLocationSelect={handleLocationSelect}
             onSubmit={handleFormSubmit}

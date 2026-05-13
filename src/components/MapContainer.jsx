@@ -8,13 +8,13 @@ function MapContainer({ startCoords, destCoords }) {
       start: startCoords,
       destination: destCoords,
     }),
-    [startCoords, destCoords] // Solo se recalcula cuando cambian las coordenadas
+    [startCoords, destCoords], // Solo se recalcula cuando cambian las coordenadas
   );
 
   // Mostrar un estado vacío si no hay coordenadas
   if (!startCoords && !destCoords) {
     return (
-      <div className="bg-gray-300 rounded-2xl shadow-lg overflow-hidden h-full flex items-center justify-center">
+      <div className="flex h-full items-center justify-center overflow-hidden rounded-2xl bg-gray-300 shadow-lg">
         <div className="text-center text-gray-600">
           <p className="text-lg font-semibold">Selecciona ubicaciones</p>
           <p className="text-sm">
@@ -26,12 +26,12 @@ function MapContainer({ startCoords, destCoords }) {
   }
 
   return (
-    <div className="bg-gray-300 rounded-2xl shadow-lg overflow-hidden h-full">
+    <div className="h-full overflow-hidden rounded-2xl bg-gray-300 shadow-lg">
       <TravelMap
         start={memoizedMapData.start}
         destination={memoizedMapData.destination}
         type="create"
-        className="w-full h-full"
+        className="h-full w-full"
       />
     </div>
   );

@@ -5,12 +5,7 @@ import { createRoot } from "react-dom/client";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
-export default function TravelMap({
-  start,
-  destination,
-  className = "",
-  style = {},
-}) {
+export default function TravelMap({ start, destination, className = "", style = {} }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
@@ -19,12 +14,7 @@ export default function TravelMap({
     if (!coords) return null;
 
     // Si es un objeto con lat/lon
-    if (
-      coords &&
-      typeof coords === "object" &&
-      "lat" in coords &&
-      "lon" in coords
-    ) {
+    if (coords && typeof coords === "object" && "lat" in coords && "lon" in coords) {
       return [coords.lon, coords.lat]; // MapLibre usa [lng, lat]
     }
     // Si es un objeto con latitude/longitude
@@ -48,16 +38,12 @@ export default function TravelMap({
     const defaultCenter = [-99.1332, 19.4326]; // Ciudad de México
     const center =
       startCoord && destCoord
-        ? [
-            (startCoord[0] + destCoord[0]) / 2,
-            (startCoord[1] + destCoord[1]) / 2,
-          ]
+        ? [(startCoord[0] + destCoord[0]) / 2, (startCoord[1] + destCoord[1]) / 2]
         : startCoord || destCoord || defaultCenter;
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style:
-        "https://api.maptiler.com/maps/streets/style.json?key=9sBTuNSMFV23mLxOZJXu",
+      style: "https://api.maptiler.com/maps/streets/style.json?key=9sBTuNSMFV23mLxOZJXu",
       center: center,
       zoom: startCoord && destCoord ? 10 : 5,
     });
@@ -123,7 +109,7 @@ export default function TravelMap({
             size={32}
             color="#10b981"
             style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" }}
-          />
+          />,
         );
 
         new maplibregl.Marker({ element: startMarkerDiv, anchor: "bottom" })
@@ -140,7 +126,7 @@ export default function TravelMap({
             size={32}
             color="#ef4444"
             style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" }}
-          />
+          />,
         );
 
         new maplibregl.Marker({ element: destMarkerDiv, anchor: "bottom" })
@@ -179,7 +165,7 @@ export default function TravelMap({
   return (
     <div className={`relative ${className}`} style={style}>
       {/* Contenedor del mapa */}
-      <div ref={mapContainer} className="w-full h-full rounded-lg" />
+      <div ref={mapContainer} className="h-full w-full rounded-lg" />
     </div>
   );
 }
