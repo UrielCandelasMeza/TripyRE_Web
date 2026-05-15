@@ -1,170 +1,135 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import { HiLocationMarker } from "react-icons/hi";
 import { createRoot } from "react-dom/client";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
-export default function TravelMap({ start, destination, className = "", style = {} }) {
+const DEFAULT_CENTER = [-99.1332, 19.4326]; // Ciudad de México
+const MAP_STYLE =
+  "https://api.maptiler.com/maps/streets/style.json?key=9sBTuNSMFV23mLxOZJXu";
+
+const normalizeCoords = (coords) => {
+  if (!coords) return null;
+  if (typeof coords === "object" && "lat" in coords && "lon" in coords) {
+    return [coords.lon, coords.lat];
+  }
+  if (typeof coords === "object" && "latitude" in coords) {
+    return [coords.longitude, coords.latitude];
+  }
+  if (Array.isArray(coords) && coords.length === 2) {
+    return coords;
+  }
+  return null;
+};
+
+const renderMarker = (color, lngLat, map) => {
+  const el = document.createElement("div");
+  createRoot(el).render(
+    <HiLocationMarker
+      size={32}
+      color={color}
+      style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" }}
+    />,
+  );
+  return new maplibregl.Marker({ element: el, anchor: "bottom" })
+    .setLngLat(lngLat)
+    .addTo(map);
+};
+
+export default function TravelMap({
+  start,
+  destination,
+  className = "",
+  style = {},
+  handleLoading,
+}) {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  // Función para normalizar coords
-  const normalizeCoords = (coords) => {
-    if (!coords) return null;
-
-    // Si es un objeto con lat/lon
-    if (coords && typeof coords === "object" && "lat" in coords && "lon" in coords) {
-      return [coords.lon, coords.lat]; // MapLibre usa [lng, lat]
-    }
-    // Si es un objeto con latitude/longitude
-    if (coords && typeof coords === "object" && "latitude" in coords) {
-      return [coords.longitude, coords.latitude];
-    }
-    // Si es un array [lng, lat]
-    if (Array.isArray(coords) && coords.length === 2) {
-      return coords;
-    }
-    return null;
-  };
-
-  const startCoord = normalizeCoords(start);
-  const destCoord = normalizeCoords(destination);
+  const startCoord = useMemo(() => normalizeCoords(start), [start]);
+  const destCoord = useMemo(() => normalizeCoords(destination), [destination]);
 
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Inicializar mapa con centro por defecto (México)
-    const defaultCenter = [-99.1332, 19.4326]; // Ciudad de México
+    handleLoading(true);
+
     const center =
       startCoord && destCoord
         ? [(startCoord[0] + destCoord[0]) / 2, (startCoord[1] + destCoord[1]) / 2]
-        : startCoord || destCoord || defaultCenter;
+        : startCoord || destCoord || DEFAULT_CENTER;
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: "https://api.maptiler.com/maps/streets/style.json?key=9sBTuNSMFV23mLxOZJXu",
-      center: center,
+      style: MAP_STYLE,
+      center,
       zoom: startCoord && destCoord ? 10 : 5,
     });
 
-    map.current.on("load", () => {
-      // Solo agregar ruta si ambas coordenadas existen
-      if (startCoord && destCoord) {
-        // Intentar obtener ruta real de OSRM
-        const drawRoute = async () => {
-          let routeCoords = [startCoord, destCoord]; // fallback: línea recta
+    let cancelled = false;
 
-          try {
-            const url = `https://router.project-osrm.org/route/v1/driving/${startCoord[0]},${startCoord[1]};${destCoord[0]},${destCoord[1]}?overview=full&geometries=geojson`;
-            const res = await fetch(url);
-            const data = await res.json();
+    map.current.on("load", async () => {
+      if (cancelled || !map.current) return;
 
-            if (data.code === "Ok" && data.routes?.[0]) {
-              routeCoords = data.routes[0].geometry.coordinates;
-            }
-          } catch (err) {
-            console.warn("OSRM no disponible, usando línea recta:", err);
-          }
+      if (startCoord) renderMarker("#10b981", startCoord, map.current);
+      if (destCoord) renderMarker("#ef4444", destCoord, map.current);
 
-          // Verificar que el mapa siga montado
-          if (!map.current) return;
-
-          map.current.addSource("route", {
-            type: "geojson",
-            data: {
-              type: "Feature",
-              properties: {},
-              geometry: {
-                type: "LineString",
-                coordinates: routeCoords,
-              },
-            },
-          });
-
-          map.current.addLayer({
-            id: "route",
-            type: "line",
-            source: "route",
-            layout: {
-              "line-join": "round",
-              "line-cap": "round",
-            },
-            paint: {
-              "line-color": "#725AC1",
-              "line-width": 4,
-            },
-          });
-        };
-
-        drawRoute();
-      }
-
-      // Marcador de inicio (verde) - solo si existe
-      if (startCoord) {
-        const startMarkerDiv = document.createElement("div");
-        const startRoot = createRoot(startMarkerDiv);
-        startRoot.render(
-          <HiLocationMarker
-            size={32}
-            color="#10b981"
-            style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" }}
-          />,
-        );
-
-        new maplibregl.Marker({ element: startMarkerDiv, anchor: "bottom" })
-          .setLngLat(startCoord)
-          .addTo(map.current);
-      }
-
-      // Marcador de destino (rojo) - solo si existe
-      if (destCoord) {
-        const destMarkerDiv = document.createElement("div");
-        const destRoot = createRoot(destMarkerDiv);
-        destRoot.render(
-          <HiLocationMarker
-            size={32}
-            color="#ef4444"
-            style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" }}
-          />,
-        );
-
-        new maplibregl.Marker({ element: destMarkerDiv, anchor: "bottom" })
-          .setLngLat(destCoord)
-          .addTo(map.current);
-      }
-
-      // Ajustar vista solo si ambos puntos existen
       if (startCoord && destCoord) {
         const bounds = new maplibregl.LngLatBounds();
         bounds.extend(startCoord);
         bounds.extend(destCoord);
-        map.current.fitBounds(bounds, {
-          padding: 50,
-          maxZoom: 15,
+        map.current.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+
+        let routeCoords = [startCoord, destCoord]; // fallback: línea recta
+        try {
+          const url = `https://router.project-osrm.org/route/v1/driving/${startCoord[0]},${startCoord[1]};${destCoord[0]},${destCoord[1]}?overview=full&geometries=geojson`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data.code === "Ok" && data.routes?.[0]) {
+            routeCoords = data.routes[0].geometry.coordinates;
+          }
+        } catch (err) {
+          console.warn("OSRM no disponible, usando línea recta:", err);
+        }
+
+        if (cancelled || !map.current) return;
+
+        map.current.addSource("route", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: { type: "LineString", coordinates: routeCoords },
+          },
         });
-      } else if (startCoord) {
-        // Centrar en el punto de inicio
-        map.current.setCenter(startCoord);
-        map.current.setZoom(12);
-      } else if (destCoord) {
-        // Centrar en el punto de destino
-        map.current.setCenter(destCoord);
+
+        map.current.addLayer({
+          id: "route",
+          type: "line",
+          source: "route",
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: { "line-color": "#725AC1", "line-width": 4 },
+        });
+      } else if (startCoord || destCoord) {
+        map.current.setCenter(startCoord || destCoord);
         map.current.setZoom(12);
       }
+
+      if (!cancelled) handleLoading(false);
     });
 
-    // Cleanup
     return () => {
+      cancelled = true;
       if (map.current) {
         map.current.remove();
+        map.current = null;
       }
     };
-  }, [startCoord, destCoord /*travelData?.destination, travelData?.start*/]);
+  }, [startCoord, destCoord, handleLoading]);
 
   return (
     <div className={`relative ${className}`} style={style}>
-      {/* Contenedor del mapa */}
       <div ref={mapContainer} className="h-full w-full rounded-lg" />
     </div>
   );

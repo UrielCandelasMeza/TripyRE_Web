@@ -1,8 +1,10 @@
 // MapContainer.jsx
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import TravelMap from "./TravelMap";
 
 function MapContainer({ startCoords, destCoords }) {
+  const [loading, setLoading] = useState(true);
+
   const memoizedMapData = useMemo(
     () => ({
       start: startCoords,
@@ -26,13 +28,22 @@ function MapContainer({ startCoords, destCoords }) {
   }
 
   return (
-    <div className="h-full overflow-hidden rounded-2xl bg-gray-300 shadow-lg">
+    <div className="relative h-full overflow-hidden rounded-2xl bg-gray-300 shadow-lg">
       <TravelMap
         start={memoizedMapData.start}
         destination={memoizedMapData.destination}
         type="create"
         className="h-full w-full"
+        handleLoading={setLoading}
       />
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-300">
+          <div className="flex flex-col items-center gap-4">
+            <div className="border-morado h-10 w-10 animate-spin rounded-full border-4 border-t-transparent" />
+            <span className="text-sm text-gray-600">Cargando Mapa...</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

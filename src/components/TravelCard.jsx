@@ -14,9 +14,13 @@ function TravelCard({
   driver,
   passengers,
   price,
+  onClick,
 }) {
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:shadow-xl">
+    <div
+      onClick={onClick}
+      className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:shadow-xl"
+    >
       {/* Top row: avatar + route timeline + duration */}
       <div className="flex items-center gap-4 px-6 pt-5 pb-4">
         {/* Avatar */}

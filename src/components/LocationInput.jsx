@@ -1,12 +1,16 @@
 // LocationInput.jsx
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { geocodeAdress } from "../services/geocoding";
 
-function LocationInput({ label, name, value, onChange, onLocationSelect, placeholder }) {
+function LocationInput({ label, name, value, onChange, onLocationSelect, placeholder, readOnly }) {
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [inputValue, setInputValue] = useState(value || "");
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    setInputValue(value || "");
+  }, [value]);
 
   const handleChange = (e) => {
     const newValue = e.target.value;
@@ -58,6 +62,7 @@ function LocationInput({ label, name, value, onChange, onLocationSelect, placeho
         placeholder={placeholder}
         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none"
         autoComplete="off"
+        readOnly={readOnly}
       />
 
       {/* Dropdown de resultados */}

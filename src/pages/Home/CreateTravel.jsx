@@ -5,6 +5,7 @@ import MapContainer from "../../components/MapContainer";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import axios from "../../api/axios";
+
 function CreateTravel() {
   const { user } = useAuth();
   const { showMessage, showError } = useToast();

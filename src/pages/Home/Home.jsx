@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { HiOutlineSwitchVertical } from "react-icons/hi";
 import { FiMapPin, FiSearch, FiX } from "react-icons/fi";
 
+import { useNavigate } from "react-router";
+
 import TravelCard from "../../components/TravelCard";
 import FilterSidebar from "../../components/FilterSidebar";
 import PlaceInput from "../../components/PlaceInput";
@@ -32,9 +34,17 @@ function Home() {
   const [originCoords, setOriginCoords] = useState(null);
   const [destCoords, setDestCoords] = useState(null);
 
+  // Navigate Instance
+  const navigate = useNavigate();
+
   // Filter state
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
+  // OnClick Handler
+
+  const navigationHandler = (id) => {
+    navigate(`travel/${id}`);
+  };
 
   // Fetch all active travels on mount
   useEffect(() => {
@@ -345,6 +355,7 @@ function Home() {
                     driver={trip.driver}
                     passengers={trip.passengers}
                     price={trip.price}
+                    onClick={() => navigationHandler(trip.id)}
                   />
                 );
               })}

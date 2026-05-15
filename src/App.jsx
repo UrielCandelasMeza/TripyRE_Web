@@ -13,6 +13,7 @@ import CreateTravel from "./pages/Home/CreateTravel";
 import Chat from "./pages/Home/Chat";
 import MyTravels from "./pages/Home/MyTravels";
 import Profile from "./pages/Home/Profile";
+import TravelDetails from "./pages/Home/travel/TravelDetails";
 
 // Toast
 import { ToastProvider } from "./context/ToastContext";
@@ -38,6 +39,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="home" element={<HomeLayout />}>
                 <Route index element={<Home />} />
+                <Route path="travel/:id" element={<TravelDetails />} />
                 <Route path="create" element={<CreateTravel />} />
                 <Route path="chat" element={<Chat />} />
                 <Route path="travels" element={<MyTravels />} />
