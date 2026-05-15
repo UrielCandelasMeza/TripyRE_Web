@@ -15,14 +15,14 @@ export default function RequestCard({ userName, onAccept, onReject }) {
       <div className="flex gap-2">
         <button
           onClick={onAccept}
-          className="flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-purple-700"
+          className="bg-morado hover:bg-morado/90 flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-white transition-colors duration-200"
         >
           <FiCheckCircle className="h-4 w-4" />
           Aceptar
         </button>
         <button
           onClick={onReject}
-          className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-gray-700"
+          className="bg-oscuro hover:bg-oscuro/90 flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-white transition-colors duration-200"
         >
           <FiXCircle className="h-4 w-4" />
           Rechazar

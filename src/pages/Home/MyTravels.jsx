@@ -1,192 +1,10 @@
 import { useState, useEffect } from "react";
-import {
-  FiMapPin,
-  FiFlag,
-  FiDollarSign,
-  FiUsers,
-  FiPlayCircle,
-  FiXCircle,
-  FiCheckCircle,
-  FiAlertCircle,
-  FiSearch,
-  FiShield,
-} from "react-icons/fi";
+import { FiAlertCircle } from "react-icons/fi";
 
-import { MdOutlineDirectionsCar as FiCar } from "react-icons/md";
-
-import { Link } from "react-router";
-
-import RequestCard from "../../components/RequestCard";
-
-// TravelDetailsCard Component
-function TravelDetailsCard({
-  travelData,
-  status,
-  isCreator,
-  onStartTrip,
-  onCancelTrip,
-  onFinishTrip,
-}) {
-  return (
-    <div className="h-fit rounded-2xl bg-white px-8 py-6 shadow-lg">
-      {/* Route Section */}
-      <div className="mb-6">
-        <div className="mb-4 flex items-start">
-          <div className="bg-moradoClaro mr-3 flex h-10 w-10 items-center justify-center rounded-full">
-            <FiMapPin className="text-morado h-5 w-5" />
-          </div>
-          <div className="flex-1">
-            <p className="text-moradoIntermedio mb-1 text-xs font-semibold">Origen</p>
-            <p className="text-oscuro text-base font-medium">{travelData.start}</p>
-          </div>
-        </div>
-
-        <div className="bg-moradoClaro mb-2 ml-5 h-8 w-0.5"></div>
-
-        <div className="flex items-start">
-          <div className="bg-moradoClaro mr-3 flex h-10 w-10 items-center justify-center rounded-full">
-            <FiFlag className="text-morado h-5 w-5" />
-          </div>
-          <div className="flex-1">
-            <p className="text-moradoIntermedio mb-1 text-xs font-semibold">Destino</p>
-            <p className="text-oscuro text-base font-medium">{travelData.destination}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="my-6 h-px bg-gray-200"></div>
-
-      {/* Info Grid */}
-      <div className="mb-6 flex justify-around">
-        <div className="flex flex-col items-center">
-          <FiDollarSign className="text-morado mb-2 h-6 w-6" />
-          <p className="text-moradoIntermedio mb-1 text-xs">Costo</p>
-          <p className="text-oscuro text-lg font-bold">${travelData.cost}</p>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <FiUsers className="text-morado mb-2 h-6 w-6" />
-          <p className="text-moradoIntermedio mb-1 text-xs">Pasajeros</p>
-          <p className="text-oscuro text-lg font-bold">{travelData.maxUsers}</p>
-        </div>
-      </div>
-
-      {/* Status */}
-      <div className="bg-moradoClaro/15 border-morado mt-6 rounded-xl border-l-4 p-5">
-        <p className="text-moradoIntermedio mb-2 text-sm font-semibold tracking-wide uppercase">
-          Estado del viaje
-        </p>
-        <p className="text-oscuro text-2xl font-bold">{status}</p>
-      </div>
-
-      {/* Action Buttons */}
-      {isCreator && travelData.status === "PRE_TRAVEL" && (
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          <button
-            onClick={() => onStartTrip(travelData.id)}
-            className="bg-morado hover:bg-morado/90 flex items-center justify-center gap-2 rounded-lg py-3 font-semibold text-white transition-colors duration-200"
-          >
-            <FiPlayCircle className="h-5 w-5" />
-            Iniciar Viaje
-          </button>
-          <button
-            onClick={() => onCancelTrip(travelData.id)}
-            className="bg-oscuro hover:bg-oscuro/90 flex items-center justify-center gap-2 rounded-lg py-3 font-semibold text-white transition-colors duration-200"
-          >
-            <FiXCircle className="h-5 w-5" />
-            Cancelar Viaje
-          </button>
-        </div>
-      )}
-
-      {isCreator && travelData.status === "IN_TRAVEL" && (
-        <button
-          onClick={() => onFinishTrip(travelData.id)}
-          className="bg-oscuro hover:bg-oscuro/90 mt-6 flex w-full items-center justify-center gap-2 rounded-lg py-3 font-semibold text-white transition-colors duration-200"
-        >
-          <FiCheckCircle className="h-5 w-5" />
-          Finalizar Viaje
-        </button>
-      )}
-
-      {/* Passenger Info */}
-      {!isCreator && (
-        <div className="bg-moradoClaro/10 mt-6 rounded-xl p-6 text-center">
-          <FiAlertCircle className="text-morado mx-auto mb-3 h-10 w-10" />
-          <p className="text-oscuro text-sm leading-relaxed">
-            Estás unido a este viaje. Espera a que el conductor inicie el viaje.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// RequestsCard Component
-function RequestsCard({ requests, onAccept, onReject }) {
-  return (
-    <div className="h-fit rounded-2xl bg-white p-8 shadow-lg">
-      <h2 className="text-oscuro mb-6 text-xl font-bold">
-        Solicitudes Pendientes ({requests.length})
-      </h2>
-      <div className="space-y-3">
-        {requests.map((request) => (
-          <RequestCard
-            key={request.id}
-            userName={request.userName}
-            onAccept={() => onAccept(request)}
-            onReject={() => onReject(request.id)}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// EmptyState Component
-function EmptyState() {
-  return (
-    <div className="mx-auto grid max-w-full grid-cols-2 gap-4">
-      {/* Empty State Card */}
-      <div className="rounded-2xl bg-white p-12 text-center shadow-lg">
-        <div className="bg-moradoClaro mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full">
-          <FiCar className="text-morado h-16 w-16" />
-        </div>
-        <h2 className="text-oscuro mb-3 text-2xl font-bold">No tienes viajes activos</h2>
-        <p className="mx-auto mb-8 max-w-md leading-relaxed text-gray-600">
-          Aún no te has unido a ningún viaje. Explora los viajes disponibles y únete a uno para
-          comenzar tu aventura.
-        </p>
-
-        <Link to="/home/create">
-          <button className="bg-morado hover:bg-morado/90 mx-auto flex items-center justify-center gap-2 rounded-lg px-10 py-3 font-semibold text-white shadow-lg transition-colors duration-200">
-            <FiSearch className="h-5 w-5" />
-            Explorar Viajes
-          </button>
-        </Link>
-      </div>
-
-      {/* Info Cards */}
-      <div className="grid gap-4">
-        <div className="flex flex-col justify-center rounded-2xl bg-white p-6 text-center shadow-md">
-          <div className="bg-moradoClaro mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full">
-            <FiUsers className="text-morado h-6 w-6" />
-          </div>
-          <h3 className="text-oscuro mb-2 text-base font-semibold">Comparte gastos</h3>
-          <p className="text-sm text-gray-600">Viaja con otros y reduce costos</p>
-        </div>
-
-        <div className="flex flex-col justify-center rounded-2xl bg-white p-6 text-center shadow-md">
-          <div className="bg-moradoClaro mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full">
-            <FiShield className="text-morado h-6 w-6" />
-          </div>
-          <h3 className="text-oscuro mb-2 text-base font-semibold">Viaja seguro</h3>
-          <p className="text-sm text-gray-600">Usuarios verificados</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+import EmptyState from "../../components/EmptyState";
+import TravelDetailsCard from "../../components/TravelDetailsCard";
+import RequestsCard from "../../components/RequestsCard";
+import MapContainer from "../../components/MapContainer";
 
 // Main MyTravels Component
 export default function MyTravels() {
@@ -196,11 +14,20 @@ export default function MyTravels() {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    // Mock data - replace with actual API calls
+    // TODO change mockdata to real fetch from api
+
     const mockTravelData = {
       id: 1,
-      start: "Ciudad de México, CDMX, México",
-      destination: "Guadalajara, Jalisco, México",
+      start: {
+        name: "Ciudad de México, CDMX, México",
+        lat: 19.4326,
+        lon: -99.1332,
+      },
+      destination: {
+        name: "Guadalajara, Jalisco, México",
+        lat: 20.6667,
+        lon: -103.3833,
+      },
       cost: "500",
       maxUsers: "4",
       status: "PRE_TRAVEL", // or "IN_TRAVEL"
@@ -213,15 +40,16 @@ export default function MyTravels() {
 
     setTravelData(mockTravelData);
     setRequests(mockRequests);
-    setIsCreator(true);
+    setIsCreator(false);
 
-    if (mockTravelData.status === "IN_TRAVEL") {
+    if (mockTravelData?.status === "IN_TRAVEL") {
       setStatus("Viajando");
-    } else if (mockTravelData.status === "PRE_TRAVEL") {
+    } else if (mockTravelData?.status === "PRE_TRAVEL") {
       setStatus("Preparando Viaje");
     }
   }, []);
 
+  // TODO Change all the handlers to real api actions
   const handleStartTrip = (idTravel) => {
     console.log("Iniciando viaje:", idTravel);
     alert("Viaje iniciado con éxito!");
@@ -235,6 +63,11 @@ export default function MyTravels() {
   const handleFinishTrip = (idTravel) => {
     console.log("Finalizando viaje:", idTravel);
     alert("Viaje finalizado con éxito!");
+  };
+
+  const handleExitTrip = (idTravel) => {
+    console.log("Saliendo del viaje:", idTravel);
+    alert("Viaje abandonado con exito!");
   };
 
   const handleAcceptRequest = (request) => {
@@ -254,7 +87,7 @@ export default function MyTravels() {
       <div className="container mx-auto px-6 py-8">
         {/* Title */}
         <div className="mb-8 flex items-center gap-4">
-          <h1 className="text-4xl font-bold text-gray-900">Detalles del Viaje</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Detalles del Viaje</h1>
         </div>
 
         {/* Main Content */}
@@ -268,15 +101,90 @@ export default function MyTravels() {
               onStartTrip={handleStartTrip}
               onCancelTrip={handleCancelTrip}
               onFinishTrip={handleFinishTrip}
+              onExitTrip={handleExitTrip}
             />
 
+            {/* Right Column - Extra Info (only if passengers) */}
+            {!isCreator && travelData?.status === "PRE_TRAVEL" && (
+              <div className="h-fit rounded-3xl border border-gray-100 bg-white p-8 shadow-xl">
+                {/* Header con Estado */}
+                <div className="mb-8 flex flex-col items-center text-center">
+                  <div className="mb-4 rounded-full bg-purple-100 p-3">
+                    <FiAlertCircle className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <h2 className="text-xl font-bold text-gray-800">¡Ya eres parte del viaje!</h2>
+                  <p className="mt-2 text-sm text-gray-500">
+                    Mantente atento, el conductor notificará cuando el motor esté en marcha.
+                  </p>
+                </div>
+
+                {/* Listado de Políticas con Estilo */}
+                <div className="space-y-6">
+                  <h3 className="text-sm font-semibold tracking-wider text-gray-400 uppercase">
+                    Información importante
+                  </h3>
+
+                  <ul className="space-y-4">
+                    {[
+                      {
+                        title: "Cancelaciones",
+                        desc: "Puedes abandonar el viaje en cualquier momento, excepto el día anterior a la salida.",
+                        icon: "🕒",
+                      },
+                      {
+                        title: "Inicio del Viaje",
+                        desc: "El conductor puede iniciar la ruta hasta 3 días antes de la fecha pactada.",
+                        icon: "🚗",
+                      },
+                      {
+                        title: "Seguridad Automática",
+                        desc: "Si no se inicia en la fecha marcada, el viaje se cancelará sin afectar tu perfil.",
+                        icon: "🛡️",
+                      },
+                      {
+                        title: "Historial",
+                        desc: "Al llegar a tu destino, el viaje aparecerá automáticamente en tu perfil.",
+                        icon: "✨",
+                      },
+                    ].map((policy, index) => (
+                      <li
+                        key={index}
+                        className="flex gap-4 rounded-xl p-3 transition-colors hover:bg-gray-50"
+                      >
+                        <span className="shrink-0 text-2xl">{policy.icon}</span>
+                        <div>
+                          <p className="text-sm font-bold text-gray-800">{policy.title}</p>
+                          <p className="text-xs leading-relaxed text-gray-600">{policy.desc}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-8 border-t border-gray-100 pt-6">
+                    <p className="text-center text-[10px] text-gray-400 italic">
+                      Al participar, aceptas nuestras políticas de comunidad y convivencia.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Right Column - Requests (only if creator and has requests) */}
-            {isCreator && requests.length > 0 && (
+            {isCreator && requests.length > 0 && travelData?.status === "PRE_TRAVEL" && (
               <RequestsCard
                 requests={requests}
                 onAccept={handleAcceptRequest}
                 onReject={handleRejectRequest}
               />
+            )}
+
+            {travelData?.status === "IN_TRAVEL" && (
+              <div className="sticky top-24 h-[calc(100vh-8rem)]">
+                <MapContainer
+                  startCoords={travelData?.start}
+                  destCoords={travelData?.destination}
+                />
+              </div>
             )}
           </div>
         ) : (
